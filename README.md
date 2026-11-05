@@ -10,12 +10,53 @@ The next generation of secure, decentralized file storage and sharing.
 
 ## ⭐ Stellar Integration
 
-BlockRoll uses [Stellar](https://stellar.org) for two real, working features (not just a payment button):
+BlockRoll uses [Stellar](https://stellar.org) for two real, working features (not just a payment button), both client-side signed with [Freighter](https://www.freighter.app/) - no backend, no custody.
 
-- **USDC payments** - the Premium plan can be paid in USDC on Stellar, signed client-side with the [Freighter](https://www.freighter.app/) wallet. No custody of funds, no backend involved - [`new-frontend/src/lib/stellar/payment.ts`](new-frontend/src/lib/stellar/payment.ts).
-- **Stellar File Notary** - a free, standalone tool that hashes a file in your browser (the file itself never leaves your device) and anchors that hash on Stellar via a `ManageData` operation, giving anyone a public, permanent, verifiable proof the file existed, unmodified, at that point in time. Includes a verification flow that re-hashes a file and checks it against the on-chain record. See [`new-frontend/src/lib/stellar/notary.ts`](new-frontend/src/lib/stellar/notary.ts) and the [`/notary`](new-frontend/src/app/(main)/(landing)/notary/page.tsx) page.
+### 1. USDC Premium payments
 
-Currently running on Stellar Testnet; see [`new-frontend/.env.example`](new-frontend/.env.example) for configuration.
+```
+User clicks "Get Premium"
+        │
+        ▼
+Freighter wallet connects (requestAccess)
+        │
+        ▼
+Browser builds a Payment operation (USDC, Circle's testnet issuer)
+        │
+        ▼
+Freighter prompts the user to sign - private key never leaves the wallet
+        │
+        ▼
+Signed transaction submitted to Horizon → Stellar Testnet ledger
+        │
+        ▼
+Checkout page links the tx hash on Stellar Expert
+```
+Code: [`new-frontend/src/lib/stellar/payment.ts`](new-frontend/src/lib/stellar/payment.ts), [`StellarPayButton.tsx`](new-frontend/src/components/ui/StellarPayButton.tsx).
+
+### 2. Stellar File Notary ([try it live](https://blockroll-gold.vercel.app/notary))
+
+A free, standalone tool for proving a file existed, unmodified, at a point in time - without ever uploading the file anywhere.
+
+```
+File selected in browser
+        │
+        ▼
+SHA-256 hash computed locally (Web Crypto API) - file itself never leaves the device
+        │
+        ▼
+Hash written into a ManageData operation (key: "blockroll_notary")
+        │
+        ▼
+Freighter signs, transaction submitted to Horizon → Stellar Testnet ledger
+        │
+        ▼
+Anyone can later re-hash the same file and compare it against that transaction
+to verify it is byte-for-byte unchanged
+```
+Code: [`new-frontend/src/lib/stellar/notary.ts`](new-frontend/src/lib/stellar/notary.ts), [`new-frontend/src/lib/stellar/hash.ts`](new-frontend/src/lib/stellar/hash.ts), [`/notary` page](new-frontend/src/app/(main)/(landing)/notary/page.tsx).
+
+Currently running on Stellar Testnet; see [`new-frontend/.env.example`](new-frontend/.env.example) for configuration, and [open issues](https://github.com/zeemscript/block-roll/issues) for what's next (XLM payments, batch notarization, tests).
 
 ---
 
@@ -27,9 +68,10 @@ Using **black, silver, and white gradients** with **glassmorphism** and **minima
 
 ## 🔑 Key Features
 
-- ✅ **Auth = simple wallet connect only (Reown AppKit)**
-- ✅ **Dashboard = has notifications section**
-- ✅ **We'll include Admin Panel too**
+- ✅ **Stellar-native payments & notarization** - wallet-signed, non-custodial, verifiable on a public ledger
+- ✅ **Non-custodial encrypted storage** - files are encrypted client-side; BlockRoll never holds the keys
+- ✅ **Share by wallet address**, with expiry dates and revocable access
+- ✅ **Bank-level security** on the backend - see below
 
 ---
 
@@ -37,30 +79,29 @@ Using **black, silver, and white gradients** with **glassmorphism** and **minima
 
 ```
 BlockRoll/
-├── contracts/        # Smart contracts (Foundry)
+├── new-frontend/      # Active Next.js app - live site, Stellar payments & notary (this is what's deployed)
+│
+├── contracts/         # Solidity smart contracts (Foundry), for an EVM-compatible chain
 │   ├── Modular Solidity contracts
 │   ├── BlockDAG RPC configured
 │   └── Complete test suite
 │
-├── frontend/          # Frontend application (Next.js)
-│   ├── Real-time WebSocket integration
-│   ├── Reown AppKit wallet auth
-│   └── Glassmorphism design
-│
-├── server/           # Backend services (TypeScript)
+├── server/            # Backend services (TypeScript)
 │   ├── 48 REST API endpoints
 │   ├── 26 WebSocket events
 │   ├── 20+ security features (Bank-level)
 │   ├── 9 database models
 │   └── Comprehensive documentation
 │
-├── whatsapp/         # AI-Powered FAQ Bot
+├── frontend/          # Older Next.js client (Reown AppKit wallet auth), being superseded by new-frontend
+│
+├── whatsapp/          # AI-Powered FAQ Bot
 │   ├── Google Gemini AI integration
 │   ├── 50+ FAQ entries
 │   ├── 15+ quick commands
 │   └── 24/7 automated support
 │
-├── blockroll-kit/    # SDKs, CDN, and Plug & Play integration
+├── blockroll-kit/     # SDKs, CDN, and Plug & Play integration
 │   ├── ✅ Core SDK (@blockroll/core) - BUILT
 │   ├── ✅ React SDK (@blockroll/react-sdk) - BUILT
 │   ├── ✅ Vue SDK (@blockroll/vue-sdk) - BUILT
@@ -68,23 +109,23 @@ BlockRoll/
 │   ├── ✅ 3 Demo Apps (React, Vue, CDN) - BUILT
 │   └── ✅ Complete documentation (5,800+ lines)
 │
-└── README.md         # This file
+└── README.md          # This file
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** Next.js + Socket.IO (Real-time)
+- **Live frontend:** Next.js 15 (App Router), TypeScript, Tailwind, Framer Motion
+- **Stellar:** `@stellar/stellar-sdk`, `@stellar/freighter-api` - USDC payments, file notarization via `ManageData`
 - **Backend:** Node.js + TypeScript + Express
-- **Auth:** Reown AppKit (Wallet Connect) + httpOnly Cookies
-- **Real-Time:** Socket.IO WebSocket
+- **Auth:** NextAuth (Google) on the live frontend; Reown AppKit (wallet connect) on the older `frontend/`
+- **Real-Time:** Socket.IO WebSocket (server)
 - **Database:** MongoDB + Mongoose
-- **Blockchain:** Stellar (payments + file notarization), BlockDAG (smart contracts)
+- **Blockchain:** Stellar (payments + file notarization), BlockDAG (smart contracts in `contracts/`)
 - **Storage:** IPFS
 - **Smart Contracts:** Foundry (Solidity)
 - **Security:** Bank-level (20+ features)
-- **Design:** Glassmorphism with black, silver, white gradients
 
 ## 🔒 Security - Bank-Level
 
@@ -203,33 +244,34 @@ See [blockroll-kit/README.md](blockroll-kit/README.md) for complete SDK document
 ### Prerequisites
 
 - Node.js (v18+)
-- Foundry
-- MongoDB
-- Web3 wallet (MetaMask, etc.)
-- Google Gemini API Key (for WhatsApp bot)
+- [Freighter wallet](https://www.freighter.app/) (for the Stellar payments/notary features)
+- Foundry (for the smart contracts)
+- MongoDB (for the backend API)
+- Google Gemini API Key (for the WhatsApp bot)
 
 ### Installation
 
 ```bash
-# Install contracts dependencies
-cd contracts
-forge install
-
-# Install client dependencies
-cd ../clients
+# Live frontend (Stellar payments + notary)
+cd new-frontend
 npm install
+cp .env.example .env.local  # set NEXT_PUBLIC_STELLAR_TREASURY_ADDRESS, etc.
 
-# Install server dependencies
+# Backend API
 cd ../server
 npm install
 cp .env.example .env  # Configure MongoDB, JWT, BlockDAG
 
-# Install WhatsApp bot dependencies
+# Smart contracts
+cd ../contracts
+forge install
+
+# WhatsApp bot (optional)
 cd ../whatsapp
 npm install
 cp env.example .env   # Add GEMINI_API_KEY
 
-# Install BlockRoll Kit dependencies
+# BlockRoll Kit SDKs (optional)
 cd ../blockroll-kit
 npm install
 ```
@@ -237,22 +279,24 @@ npm install
 ### Development
 
 ```bash
-# Run smart contracts tests
-cd contracts
-forge test
-
-# Run frontend
-cd clients
+# Run the live frontend
+cd new-frontend
 npm run dev
 
 # Run backend (with WebSocket)
 cd server
 npm run dev
 
+# Run smart contracts tests
+cd contracts
+forge test
+
 # Run WhatsApp bot
 cd whatsapp
 npm run dev  # Scan QR code first time
 ```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full breakdown of what's active vs. legacy, and known rough edges.
 
 ---
 
@@ -272,4 +316,4 @@ MIT - see [LICENSE](LICENSE).
 
 ---
 
-**Built with ❤️ for Web3**
+**Built with ❤️ for Web3, powered by Stellar**
