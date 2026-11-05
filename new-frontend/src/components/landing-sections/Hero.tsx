@@ -26,9 +26,9 @@ const Hero = () => {
             <span className="text-[#e1e1e1] text-sm font-medium">Powered by</span>
             <div className="flex items-center gap-1.5">
               <div className="w-5 h-5 bg-gradient-to-br from-[#8B5CF6] to-[#6366F1] rounded flex items-center justify-center">
-                <span className="text-white text-xs font-bold">B</span>
+                <span className="text-white text-xs font-bold">S</span>
               </div>
-              <span className="text-white text-sm font-medium">lockDAG</span>
+              <span className="text-white text-sm font-medium">tellar</span>
             </div>
           </div>
         </motion.div>
@@ -51,7 +51,7 @@ const Hero = () => {
           }}
           className="w-full lg:text-2xl tracking-tight font-light sm:max-w-lg mx-auto lg:max-w-4xl lg:text-balance text-[#e1e1e1]"
         >
-          The next generation of secure, decentralized file storage. Built on BlockDAG. 
+          The next generation of secure, decentralized file storage. Built on Stellar.
           Your files, your keys, your control. Bank-level security meets Web3.
         </motion.p>
       </div>

@@ -14,7 +14,7 @@ const BlockRollFeatures = [
     id: 1,
     title: "Secure File Storage & Sharing",
     description:
-      "Store and share files with complete ownership and bank-level security. Built on BlockDAG blockchain with client-side encryption.",
+      "Store and share files with complete ownership and bank-level security. Built on Stellar with client-side encryption.",
     features: [
       "Non-custodial storage - you own your data",
       "Client-side encryption before upload",

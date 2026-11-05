@@ -80,7 +80,7 @@ BlockRoll/
 - **Auth:** Reown AppKit (Wallet Connect) + httpOnly Cookies
 - **Real-Time:** Socket.IO WebSocket
 - **Database:** MongoDB + Mongoose
-- **Blockchain:** BlockDAG, Stellar (payments + file notarization)
+- **Blockchain:** Stellar (payments + file notarization), BlockDAG (smart contracts)
 - **Storage:** IPFS
 - **Smart Contracts:** Foundry (Solidity)
 - **Security:** Bank-level (20+ features)

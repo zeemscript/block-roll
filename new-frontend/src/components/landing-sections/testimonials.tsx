@@ -81,7 +81,7 @@ const mockTestimonials: TestimonialData[] = [
         handle: "mariag_tech",
         avatar: "/avatar/mariag_tech.png",
         verified: true,
-        text: "BlockDAG integration is brilliant. The network is fast, secure, and truly decentralized. This is the future of file storage."
+        text: "Stellar integration is brilliant. The network is fast, secure, and truly decentralized. This is the future of file storage."
     },
     {
         id: "11",
