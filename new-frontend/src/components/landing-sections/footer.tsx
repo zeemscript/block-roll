@@ -56,7 +56,7 @@ const Footer = () => {
               </h3>
               <div className="flex flex-col gap-2">
                 <Link
-                  href="/dashboard/home"
+                  href="/#features"
                   className="text-[#b1b1b1] hover:text-white transition-colors text-xs"
                 >
                   Features

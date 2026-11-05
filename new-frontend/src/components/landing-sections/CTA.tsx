@@ -22,7 +22,7 @@ const CTA = () => {
           Store and share files with complete ownership and bank-level security.
         </p>
       </div>
-      <Link href="/dashboard/home" className="cursor-pointer z-30">
+      <Link href="/notary" className="cursor-pointer z-30">
         <PrimaryButtom>
           <Terminal />
           Get Started

@@ -293,7 +293,7 @@ const PricingCard = () => {
             </div>
             <div className="w-full border-dashed border-border-primary px-6 lg:px-10 py-4 ">
               <div className="">
-                <Link href="/dashboard/home" className="cursor-pointer z-30">
+                <Link href="/notary" className="cursor-pointer z-30">
                   <PrimaryButton classname="w-full">
                     <Terminal />
                     Get Started

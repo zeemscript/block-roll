@@ -66,7 +66,7 @@ const Hero = () => {
         }}
         className="cursor-pointer z-30"
       >
-        <Link href="/dashboard/home" className="block">
+        <Link href="/notary" className="block">
           <PrimaryButtom>
             <Shield className="w-5 h-5" />
             Get Started

@@ -29,7 +29,7 @@ const SignInPage = () => {
         </p>
       </div>
       <PrimaryButton
-        onClick={() => signIn("google", { callbackUrl: "/dashboard/home" })}
+        onClick={() => signIn("google", { callbackUrl: "/notary" })}
         classname="w-full max-w-[380px] z-20 "
       >
         <div className="w-6">

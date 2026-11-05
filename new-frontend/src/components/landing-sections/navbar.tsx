@@ -77,7 +77,7 @@ const Navbar = () => {
           <Github className="w-5 h-5" />
           <span className="text-sm font-medium">Contribute</span>
         </Link>
-        <Link href="/dashboard/home" className="cursor-pointer z-30">
+        <Link href="/notary" className="cursor-pointer z-30">
           <PrimaryButtom>
             <Terminal />
             Get Started
