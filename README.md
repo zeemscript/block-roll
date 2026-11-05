@@ -4,6 +4,8 @@
 
 The next generation of secure, decentralized file storage and sharing.
 
+**Live: [blockroll-gold.vercel.app](https://blockroll-gold.vercel.app)** — try the [Stellar File Notary](https://blockroll-gold.vercel.app/notary) directly.
+
 ---
 
 ## ⭐ Stellar Integration
@@ -256,15 +258,17 @@ npm run dev  # Scan QR code first time
 
 ## 📄 License
 
-© BlockRoll 2025. All rights reserved.
+MIT - see [LICENSE](LICENSE).
 
 ---
 
 ## 🔗 Links
 
+- [Live demo](https://blockroll-gold.vercel.app)
 - [Issues & feature requests](https://github.com/zeemscript/block-roll/issues)
 - [Server API docs](server/README.md)
 - [Smart contracts docs](contracts/README.md)
+- [Contributing guide](CONTRIBUTING.md)
 
 ---
 

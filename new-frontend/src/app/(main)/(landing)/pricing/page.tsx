@@ -456,7 +456,7 @@ const TestimonialsSection = () => {
       content: (
         <div className="space-y-3 text-pretty">
           <p>
-            BlockRoll Premium has been a game-changer for our startup. Here's
+            BlockRoll Premium has been a game-changer for our startup. Here&apos;s
             why it stands out:
           </p>
           <ul className="list-disc space-y-3 pl-6">
